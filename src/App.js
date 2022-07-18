@@ -49,29 +49,36 @@ class Header extends React.Component {
 class MovieCard extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      movie1: ''
+    }
+    this.handleMovieChange = this.handleMovieChange.bind(this)
   }
-
+  handleMovieChange(event) {
+    this.setState({movie1: event.target.value})
+  }
 
   render() {
     if (this.props.movieTitle !== '') {
       let movie = this.props.movieTitle.replace(' ', '-');
       let movieInfo = new Request('http://www.omdbapi.com/?apikey=9c4122a2&t=Star-Wars'+ movie)
-    }
-    let movieInfo;
-    fetch('http://www.omdbapi.com/?apikey=9c4122a2&t=Star-Wars')
-      .then(response => response.json())
-      .then(function(data) {
-        movieInfo = data.results
-      })
-      let obj;    
+  
+      //let movieInfo;
       fetch('http://www.omdbapi.com/?apikey=9c4122a2&t=Star-Wars')
-        .then(res => res.json())
-        .then(data => obj = data)
-      
+        .then(response => response.json())
+        .then(function(data) {
+          movieInfo = data.results
+        })
+        this.setState({movie1: movieInfo})
+        //let obj;    
+        //fetch('http://www.omdbapi.com/?apikey=9c4122a2&t=Star-Wars')
+          //.then(res => res.json())
+          //.then(data => obj = data)
+    }
     return (
       <div>
         <h1>{this.props.movieTitle}</h1>
-        <p>{obj}</p>
+        <p>{this.state.movie1}</p>
       </div>
     )
   }
